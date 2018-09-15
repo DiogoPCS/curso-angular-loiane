@@ -1,7 +1,8 @@
+
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-template-form',
@@ -18,18 +19,17 @@ export class TemplateFormComponent implements OnInit {
   onSubmit(formulario){
     console.log(formulario);
 
-    //form.value
-    //console.log(this.usuario);
+    // form.value
+    // console.log(this.usuario);
 
     this.http.post('https://httpbin.org/post', JSON.stringify(formulario.value))
-      .map(res => res)
       .subscribe(dados => {
         console.log(dados);
         formulario.form.reset();
       });
   }
 
-  constructor(private http: Http, private cepService: ConsultaCepService) { }
+  constructor(private http: HttpClient, private cepService: ConsultaCepService) { }
 
   ngOnInit() {
   }

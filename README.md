@@ -9,10 +9,13 @@ Código fonte apresentado no curso de Angular gratuito do blog loiane.com - loia
 Arquivo `package.json` exposto no projeto para ser notificado das atualizações dos pacotes npm via greenkeeper.io.
 
 ### Curso realizado pela Loiane Groner:
-* [loiane.com](https://loiane.com)
-* [loiane.training](http://loiane.training)
-* [Youtube](https://www.youtube.com/playlist?list=PLGxZ4Rq3BOBoSRcKWEdQACbUCNWLczg2G)
-* [github](https://github.com/loiane/curso-angular)
+* [Blog](https://loiane.com)
+* [Site](https://loiane.training)
+* [Facebook](https://www.facebook.com/loianegroner)
+* [Github](https://github.com/loiane)
+* [Twitter](https://twitter.com/loiane)
+* [Repositório dos exemplos](https://github.com/loiane/curso-angular2)
+* [Slides](https://slides.com/loiane)
 
 
 ### Lista das aulas
