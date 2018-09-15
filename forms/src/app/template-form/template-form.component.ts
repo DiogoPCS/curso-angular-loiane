@@ -1,4 +1,3 @@
-
 import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -14,9 +13,9 @@ export class TemplateFormComponent implements OnInit {
   usuario: any = {
     nome: null,
     email: null
-  }
+  };
 
-  onSubmit(formulario){
+  onSubmit(formulario) {
     console.log(formulario);
 
     // form.value
@@ -24,51 +23,54 @@ export class TemplateFormComponent implements OnInit {
 
     this.http.post('https://httpbin.org/post', JSON.stringify(formulario.value))
       .subscribe(dados => {
-        console.log(dados);
         formulario.form.reset();
       });
   }
 
-  constructor(private http: HttpClient, private cepService: ConsultaCepService) { }
+  constructor(
+      private http: HttpClient,
+      private cepService: ConsultaCepService,
+      ) {
+  }
 
   ngOnInit() {
   }
 
-  verificaValidTouched(campo){
+  verificaValidTouched(campo) {
     return !campo.valid && campo.touched;
   }
 
-  aplicaCssErro(campo){
+  aplicaCssErro(campo) {
     return {
       'has-error': this.verificaValidTouched(campo),
       'has-feedback': this.verificaValidTouched(campo)
-    }
+    };
   }
 
-  consultaCEP(cep, form){
+  consultaCEP(cep, form) {
     this.cepService.consultaCEP(cep, this.resetaDadosForm, form)
       .subscribe(dados => this.populaDadosForm(dados, form));
   }
 
-  populaDadosForm(dados, formulario){
+  populaDadosForm(dados, formulario) {
     /*formulario.setValue({
       nome: formulario.value.nome,
       email: formulario.value.email,
       endereco: {
-        rua: dados.logradouro,
-        cep: dados.cep,
-        numero: '',
-        complemento: dados.complemento,
-        bairro: dados.bairro,
-        cidade: dados.localidade,
-        estado: dados.uf
+      rua: dados.logradouro,
+      cep: dados.cep,
+      numero: '',
+      complemento: dados.complemento,
+      bairro: dados.bairro,
+      cidade: dados.localidade,
+      estado: dados.uf
       }
     });*/
 
     formulario.form.patchValue({
       endereco: {
         rua: dados.logradouro,
-        //cep: dados.cep,
+        // cep: dados.cep,
         complemento: dados.complemento,
         bairro: dados.bairro,
         cidade: dados.localidade,
@@ -76,10 +78,10 @@ export class TemplateFormComponent implements OnInit {
       }
     });
 
-    //console.log(form);
+    // console.log(form);
   }
 
-  resetaDadosForm(formulario){
+  resetaDadosForm(formulario) {
     formulario.form.patchValue({
       endereco: {
         rua: null,

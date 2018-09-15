@@ -26,6 +26,6 @@ import { HttpClientModule } from '@angular/common/http';
     FormDebugComponent,
     CampoControlErroComponent
   ],
-  providers: [ DropdownService, ConsultaCepService ]
+  providers: [ DropdownService ]
 })
 export class SharedModule { }

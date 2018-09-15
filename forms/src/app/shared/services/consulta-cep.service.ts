@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ConsultaCepService {
   constructor(private http: HttpClient) {}
 
-  consultaCEP(cep, resetaFormCallback, formulario) {
+  consultaCEP(cep: string, resetaFormCallback, form) {
     // Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, '');
 
@@ -16,11 +19,11 @@ export class ConsultaCepService {
 
       // Valida o formato do CEP.
       if (validacep.test(cep)) {
-        resetaFormCallback(formulario);
-
-        return this.http
-          .get(`//viacep.com.br/ws/${cep}/json`);
+        resetaFormCallback(form);
+        return this.http.get(`//viacep.com.br/ws/${cep}/json`);
       }
     }
+
+    return of({});
   }
 }
