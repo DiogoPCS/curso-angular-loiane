@@ -1,4 +1,4 @@
-Curso Angular (versões 2.x 4.x e 5.x) Gratuito
+Curso Angular (versões 2.x 4.x, 5.x e 6)
 =================
 
 [![Build Status](https://travis-ci.org/loiane/curso-angular-loiane.svg?branch=master)](https://travis-ci.org/loiane/curso-angular-loiane)
@@ -6,21 +6,14 @@ Curso Angular (versões 2.x 4.x e 5.x) Gratuito
 
 Código fonte apresentado no curso de Angular gratuito do blog loiane.com - loiane.training
 
-**Código atualizado para Angular v5.0.0-beta.0**
-
 Arquivo `package.json` exposto no projeto para ser notificado das atualizações dos pacotes npm via greenkeeper.io.
 
-### Link do curso com certificado:
-* [http://loiane.training/curso/angular-2/](http://loiane.training/curso/angular-2/)
+### Curso realizado pela Loiane Groner:
+* [loiane.com](https://loiane.com)
+* [loiane.training](http://loiane.training)
+* [Youtube](https://www.youtube.com/playlist?list=PLGxZ4Rq3BOBoSRcKWEdQACbUCNWLczg2G)
+* [github](https://github.com/loiane/curso-angular)
 
-### Playlist Youtube
-* [Clique aqui para assistir a todos os vídeos já publicados](https://www.youtube.com/playlist?list=PLGxZ4Rq3BOBoSRcKWEdQACbUCNWLczg2G)
-
-### Editor e plugins
-
-Particularmente recomendo o uso do Visual Studio Code como editor - que é o mesmo usado nas aulas.
-
-Para pacote de plugins, instale esse pacote de extensões VSCode que contém todos os plugins mostrados durante as aulas do curso: [https://marketplace.visualstudio.com/items?itemName=loiane.angular-extension-pack](https://marketplace.visualstudio.com/items?itemName=loiane.angular-extension-pack).
 
 ### Lista das aulas
 
