@@ -169,6 +169,10 @@
 					<input type="checkbox" [formControlName]="i"> {{frameworks[i]}}
 				</label>
 			</div>
+            <app-campo-control-erro
+                    [mostrarErro]="verificaValidTouched('frameworks')"
+                    msgErro="Selecione 1 opção.">
+            </app-campo-control-erro>
 		</div>
 	</div>
 
