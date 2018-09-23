@@ -61,7 +61,8 @@ export class DataFormComponent implements OnInit {
 
         cargo: [null],
         tecnologias: [null],
-        newsletter: ['s'], //valor padrao s (Sim)
+        newsletter: ['s'], // valor padrao s (Sim)
+        termos: [null, Validators.pattern('true')], // se o campo for true, é valido
     });
 
     // tslint:disable-next-line:max-line-length

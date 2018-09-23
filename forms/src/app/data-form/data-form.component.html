@@ -144,32 +144,25 @@
           <input type="radio" [value]="item.valor" formControlName="newsletter"> {{item.desc}}
         </label>
       </div>
-
-
-      <!--<div class="form-check form-check-inline">-->
-        <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="newsletter1" value="option1">-->
-        <!--<label class="form-check-label" for="newsletter1">Sim</label>-->
-      <!--</div>-->
-      <!--<div class="form-check form-check-inline">-->
-        <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="newsletter2" value="option1">-->
-        <!--<label class="form-check-label" for="newsletter2">Não</label>-->
-      <!--</div>-->
-    <!--</div>-->
-
-
-    <!--<div class="form-check form-check-inline">-->
-      <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">-->
-      <!--<label class="form-check-label" for="inlineRadio1">1</label>-->
-    <!--</div>-->
-    <!--<div class="form-check form-check-inline">-->
-      <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">-->
-      <!--<label class="form-check-label" for="inlineRadio2">2</label>-->
-    <!--</div>-->
-    <!--<div class="form-check form-check-inline">-->
-      <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>-->
-      <!--<label class="form-check-label" for="inlineRadio3">3 (disabled)</label>-->
     </div>
   </div>
+
+	<!--checkbox button-->
+	<div class="col-md-3" [ngClass]="aplicaCssErro('termos')">
+		<div class="checkbox">
+			<label class="checkbox-inline">
+				<input type="checkbox" formControlName="termos"> Aceito os termos.
+			</label>
+			<app-campo-control-erro
+					[mostrarErro]="verificaValidTouched('termos')"
+					msgErro="Por favor aceite os termos.">
+			</app-campo-control-erro>
+			<app-campo-control-erro
+					[mostrarErro]="!formulario.get('termos').valid"
+					msgErro="Estado é obrigatório.">
+			</app-campo-control-erro>
+		</div>
+	</div>
 
 
 
