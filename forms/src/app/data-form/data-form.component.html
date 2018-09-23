@@ -120,29 +120,69 @@
   </div>
 
   <!--select com objeto (necessário usar o compareWith)-->
-  <div class="form-group">
-    <div class="col-md-3" [ngClass]="aplicaCssErro('cargo')">
-      <label for="cargo" class="control-label">Cargo</label>
-      <select type="text" class="form-control" id="cargo" formControlName="cargo" [compareWith]="compararCargos">
-        <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{cargo.desc}}</option>
-      </select>
-    </div>
+  <div class="col-md-3" [ngClass]="aplicaCssErro('cargo')">
+    <label for="cargo" class="control-label">Cargo</label>
+    <select type="text" class="form-control" id="cargo" formControlName="cargo" [compareWith]="compararCargos">
+      <option *ngFor="let cargo of cargos" [ngValue]="cargo">{{cargo.desc}}</option>
+    </select>
   </div>
 
   <!--select multiplo-->
-  <div class="form-group">
-    <div class="col-md-3" [ngClass]="aplicaCssErro('tecnologias')">
-      <label for="tecnologias" class="control-label">Tecnologias</label>
-      <select type="text" class="form-control" id="tecnologias" formControlName="tecnologias" multiple>
-        <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{tecnologia.desc}}</option>
-      </select>
+  <div class="col-md-3" [ngClass]="aplicaCssErro('tecnologias')">
+    <label for="tecnologias" class="control-label">Tecnologias</label>
+    <select type="text" class="form-control" id="tecnologias" formControlName="tecnologias" multiple>
+      <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">{{tecnologia.desc}}</option>
+    </select>
+  </div>
+
+  <!--radio button-->
+  <div class="col-md-3" [ngClass]="aplicaCssErro('newsletter')">
+    <label for="newsletter" class="control-label">Newsletter</label>
+    <div id="newsletter" class="control-label">
+      <div class="col-sm-4" *ngFor="let item of newsletterOptions">
+        <label class="radio-inline radio">
+          <input type="radio" [value]="item.valor" formControlName="newsletter"> {{item.desc}}
+        </label>
+      </div>
+
+
+      <!--<div class="form-check form-check-inline">-->
+        <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="newsletter1" value="option1">-->
+        <!--<label class="form-check-label" for="newsletter1">Sim</label>-->
+      <!--</div>-->
+      <!--<div class="form-check form-check-inline">-->
+        <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="newsletter2" value="option1">-->
+        <!--<label class="form-check-label" for="newsletter2">Não</label>-->
+      <!--</div>-->
+    <!--</div>-->
+
+
+    <!--<div class="form-check form-check-inline">-->
+      <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">-->
+      <!--<label class="form-check-label" for="inlineRadio1">1</label>-->
+    <!--</div>-->
+    <!--<div class="form-check form-check-inline">-->
+      <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">-->
+      <!--<label class="form-check-label" for="inlineRadio2">2</label>-->
+    <!--</div>-->
+    <!--<div class="form-check form-check-inline">-->
+      <!--<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" disabled>-->
+      <!--<label class="form-check-label" for="inlineRadio3">3 (disabled)</label>-->
     </div>
   </div>
 
-  <button class="btn btn-primary" type="submit">Submit</button>
-  <button class="btn" (click)="resetar()">Cancelar</button>
-  <button class="btn btn-info" (click)="setarCargo()">Cargo</button>
-  <button class="btn btn-info" (click)="setarTecnologias()">Tecnologias</button>
 
-  <app-form-debug [form]="formulario"></app-form-debug>
+
+
+  <div class="col-md-12">
+    <br>
+    <br>
+    <hr>
+    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn" (click)="resetar()">Cancelar</button>
+    <button class="btn btn-info" (click)="setarCargo()">Cargo</button>
+    <button class="btn btn-info" (click)="setarTecnologias()">Tecnologias</button>
+
+  	<app-form-debug [form]="formulario"></app-form-debug>
+  </div>
 </form>

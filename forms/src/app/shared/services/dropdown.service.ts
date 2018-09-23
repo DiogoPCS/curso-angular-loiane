@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { EstadoBr } from '../models/estado-br.model';
@@ -25,6 +24,13 @@ export class DropdownService {
         {nome: 'javascript', desc: 'Javascript'},
         {nome: 'php', desc: 'PHP'},
         {nome: 'Ruby', desc: 'Ruby'},
+    ];
+  }
+
+  getNewsletter() {
+    return [
+      {valor: 's', desc: 'Sim'},
+      {valor: 'n', desc: 'Não'},
     ];
   }
 }
