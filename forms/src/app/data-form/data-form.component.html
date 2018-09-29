@@ -35,6 +35,36 @@
     </div>
   </div>
 
+	<div class="form-group" [ngClass]="aplicaCssErro('confirmarEmail')">
+		<div class="col-sm-12">
+			<label for="confirmarEmail" class="control-label">Confirmar email</label>
+		</div>
+		<div class="col-sm-12">
+			<input type="email" class="form-control"
+				   formControlName="confirmarEmail"
+				   id="confirmarEmail" placeholder="nome@email.com">
+			<app-campo-control-erro
+					[mostrarErro]="verificaValidTouched('confirmarEmail')"
+					msgErro="Confirmar email é obrigatório.">
+			</app-campo-control-erro>
+		</div>
+	</div>
+
+	<!--<div class="form-group" [ngClass]="aplicaCssErro('confirmarEmail')">-->
+		<!--<div class="col-sm-12">-->
+			<!--<label for="confirmarEmail" class="control-label">Confirmar email</label>-->
+		<!--</div>-->
+		<!--<div class="col-sm-12">-->
+			<!--<input type="email" class="form-control"-->
+				   <!--formControlName="confirmarEmail"-->
+				   <!--id="confirmarEmail" placeholder="nome@email.com">-->
+			<!--<app-campo-control-erro-->
+					<!--[mostrarErro]="formulario.get('confirmarEmail').hasError('equalsTo')"-->
+					<!--msgErro="Emails não são iguais.">-->
+			<!--</app-campo-control-erro>-->
+		<!--</div>-->
+	<!--</div>-->
+
   <div formGroupName="endereco">
 
     <div class="form-group">
