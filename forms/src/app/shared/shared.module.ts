@@ -6,6 +6,7 @@ import { FormDebugComponent } from './form-debug/form-debug.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { ErrorMsgComponent } from './error-msg/error-msg.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   declarations: [
     FormDebugComponent,
-    CampoControlErroComponent
+    CampoControlErroComponent,
+    ErrorMsgComponent
   ],
   exports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     FormDebugComponent,
-    CampoControlErroComponent
+    CampoControlErroComponent,
+    ErrorMsgComponent
   ],
   providers: [ DropdownService ]
 })

@@ -49,8 +49,8 @@ export class DataFormComponent implements OnInit {
     });*/
 
     this.formulario = this.formBuilder.group({
-      nome: [null, Validators.required],
-        // email: [null, [Validators.required, Validators.email], [FormValidations.XPTO(this.validarEmail)] ], // pode criar uma validação para não precisar de usar o bind
+      nome: [null, [Validators.required, Validators.minLength(3)]],
+      // email: [null, [Validators.required, Validators.email], [FormValidations.XPTO(this.validarEmail)] ], // pode criar uma validação para não precisar de usar o bind
       email: [null, [Validators.required, Validators.email], [this.validarEmail.bind(this)] ], // validação assíncrona é o 3o parâmetro
       confirmarEmail: [null, FormValidations.equalsTo('email')],
 
