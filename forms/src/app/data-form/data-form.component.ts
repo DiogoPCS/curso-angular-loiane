@@ -6,6 +6,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FormValidations } from '../shared/form.validations';
+import { VerificaEmailService } from './services/verifica-email.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-data-form',
@@ -24,10 +26,13 @@ export class DataFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private dropdownService: DropdownService,
-    private cepService: ConsultaCepService
+    private cepService: ConsultaCepService,
+    private verificaEmailService: VerificaEmailService,
   ) {}
 
   ngOnInit() {
+    // this.verificaEmailService.verificaEmail('email@email.com').subscribe();
+
     this.estados = this.dropdownService.getEstadosBr();
     this.cargos = this.dropdownService.getCargos();
     this.tecnologias = this.dropdownService.getTecnologias();
@@ -45,7 +50,8 @@ export class DataFormComponent implements OnInit {
 
     this.formulario = this.formBuilder.group({
       nome: [null, Validators.required],
-      email: [null, [Validators.required, Validators.email]],
+        // email: [null, [Validators.required, Validators.email], [FormValidations.XPTO(this.validarEmail)] ], // pode criar uma validação para não precisar de usar o bind
+      email: [null, [Validators.required, Validators.email], [this.validarEmail.bind(this)] ], // validação assíncrona é o 3o parâmetro
       confirmarEmail: [null, FormValidations.equalsTo('email')],
 
       endereco: this.formBuilder.group({
@@ -197,5 +203,11 @@ export class DataFormComponent implements OnInit {
 
   compararCargos(obj1, obj2) {
     return obj1 && obj2 ? (obj1.nome === obj2.nome && obj1.nivel === obj2.nivel) : obj1 && obj2;
+  }
+
+  // validação assíncrona
+  validarEmail(formControl: FormControl) {
+    return this.verificaEmailService.verificaEmail(formControl.value)
+        .pipe(map(emailExiste => emailExiste ? { emailInvalido: true} : null));
   }
 }

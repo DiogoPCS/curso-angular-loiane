@@ -22,16 +22,24 @@
     </div>
     <div class="col-sm-12">
       <input type="email" class="form-control"
-           formControlName="email"
-           id="email" placeholder="nome@email.com">
+           formControlName="email" id="email" placeholder="nome@email.com">
       <app-campo-control-erro
-          [mostrarErro]="verificaValidTouched('email')"
-          msgErro="Email é obrigatório.">
+          [mostrarErro]="verificaValidTouched('email')" msgErro="Email é obrigatório.">
       </app-campo-control-erro>
       <app-campo-control-erro
-          [mostrarErro]="verificaEmailInvalido()"
-          msgErro="Email inválido.">
+          [mostrarErro]="verificaEmailInvalido()" msgErro="Email inválido.">
       </app-campo-control-erro>
+		<app-campo-control-erro
+				[mostrarErro]="formulario.get('email').status === 'PENDING'" msgErro="Validando email...">
+		</app-campo-control-erro>
+		<app-campo-control-erro
+				[mostrarErro]="formulario.get('email').status === 'VALID'" msgErro="Email válido">
+		</app-campo-control-erro>
+
+		<!--aqui não deveria retornar um campo em vermelho. É apenas para demosntracão -->
+		<app-campo-control-erro
+				[mostrarErro]="formulario.get('email').hasError('emailInvalido')" msgErro="Email já cadastrado">
+		</app-campo-control-erro>
     </div>
   </div>
 
