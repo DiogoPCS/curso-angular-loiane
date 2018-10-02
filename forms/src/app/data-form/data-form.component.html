@@ -1,17 +1,28 @@
 <form class="form-horizontal" [formGroup]="formulario" (ngSubmit)="onSubmit()">
-  <div class="form-group" [ngClass]="aplicaCssErro('nome')">
-    <div class="col-sm-12">
-      <label for="nome" class="control-label">Nome</label>
-    </div>
 
-    <div class="col-sm-12">
-      <input type="text" class="form-control"
-           formControlName="nome"
-           id="nome" placeholder="Nome">
-      <!--mensagem de erro geral-->
-      <app-error-msg [control]="formulario.get('nome')" label="nome"> </app-error-msg>
-    </div>
-  </div>
+	<app-input-field
+			formControlName="nome"
+			[classeCss]="aplicaCssErro('nome')"
+			id="nome"
+			label="Nome"
+			type="text"
+			placeholder="Nome"
+			[control]="formulario.get('nome')"
+	></app-input-field>
+
+  <!--<div class="form-group" [ngClass]="aplicaCssErro('nome')">-->
+    <!--<div class="col-sm-12">-->
+      <!--<label for="nome" class="control-label">Nome</label>-->
+    <!--</div>-->
+
+    <!--<div class="col-sm-12">-->
+      <!--<input type="text" class="form-control"-->
+           <!--formControlName="nome"-->
+           <!--id="nome" placeholder="Nome">-->
+      <!--&lt;!&ndash;mensagem de erro geral&ndash;&gt;-->
+      <!--<app-error-msg [control]="formulario.get('nome')" label="nome"> </app-error-msg>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <div class="form-group" [ngClass]="aplicaCssErro('email')">
     <div class="col-sm-12">
