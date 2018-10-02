@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 export class ConsultaCepService {
   constructor(private http: HttpClient) {}
 
-  consultaCEP(cep: string, resetaFormCallback, form) {
+  consultaCEP(cep: string, resetaFormCallback?, form?) {
     // Nova variável "cep" somente com dígitos.
     cep = cep.replace(/\D/g, '');
 
@@ -19,7 +19,9 @@ export class ConsultaCepService {
 
       // Valida o formato do CEP.
       if (validacep.test(cep)) {
-        resetaFormCallback(form);
+        if (resetaFormCallback && form) {
+          resetaFormCallback(form);
+        }
         return this.http.get(`//viacep.com.br/ws/${cep}/json`);
       }
     }

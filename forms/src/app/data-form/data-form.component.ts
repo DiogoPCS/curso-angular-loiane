@@ -2,12 +2,13 @@ import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { EstadoBr } from './../shared/models/estado-br.model';
 import { DropdownService } from './../shared/services/dropdown.service';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FormValidations } from '../shared/form.validations';
 import { VerificaEmailService } from './services/verifica-email.service';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-data-form',
@@ -71,9 +72,38 @@ export class DataFormComponent implements OnInit {
         frameworks: this.buildFrameworks(),
     });
 
-    // tslint:disable-next-line:max-line-length
-    // Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-    // [Validators.required, Validators.minLength(3), Validators.maxLength(20)]
+    // this.formulario.get('endereco.cep').statusChanges
+    // .pipe(
+    //     distinctUntilChanged(),
+    //     tap(value => console.log('valor CEp: ', value))
+    // )
+    // .subscribe(status => {
+    //   if (status === 'VALID') {
+    //     this.cepService.consultaCEP(this.formulario.get('endereco.cep').value, this.resetaDadosForm, this.formulario)
+    //         .subscribe(dados => this.populaDadosForm(dados));
+    //   }
+    // });
+
+    this.formulario.get('endereco.cep')
+        .statusChanges // retorna o campo como 'INVALID' ou 'VALID' depois de passar por todas as validações
+      // .pipe(
+      //     distinctUntilChanged(), // retorna somente quando o valor mudar ( ex: não retorna 'INVALID' 2 vezes )
+      //     tap(value => console.log('valor CEp: ', value)),
+      //     switchMap(status => status === 'VALID' ?
+      //         this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
+      //         : empty()
+      //       )
+      //     )
+      //     .subscribe(dados => dados ? this.populaDadosForm(dados) : {} );
+        .pipe(
+            distinctUntilChanged(),
+            tap(value => console.log('status CEP:', value)),
+            switchMap(status => status === 'VALID' ?
+                this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
+                : new Observable()
+            )
+         )
+         .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
   }
 
   buildFrameworks() {
@@ -157,8 +187,10 @@ export class DataFormComponent implements OnInit {
 
   consultaCEP() {
     const cep = this.formulario.get('endereco.cep').value;
-    this.cepService.consultaCEP(cep, this.resetaDadosForm, this.formulario)
-      .subscribe(dados => this.populaDadosForm(dados));
+    if (cep != null && cep !== '') {
+      this.cepService.consultaCEP(cep, this.resetaDadosForm, this.formulario)
+        .subscribe(dados => this.populaDadosForm(dados));
+    }
   }
 
   populaDadosForm(dados) {
