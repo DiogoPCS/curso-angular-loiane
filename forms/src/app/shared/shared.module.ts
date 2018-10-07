@@ -20,7 +20,7 @@ import { InputFieldComponent } from './input-field/input-field.component';
     FormDebugComponent,
     CampoControlErroComponent,
     ErrorMsgComponent,
-    InputFieldComponent
+    InputFieldComponent,
   ],
   exports: [
     CommonModule,
@@ -30,7 +30,7 @@ import { InputFieldComponent } from './input-field/input-field.component';
     FormDebugComponent,
     CampoControlErroComponent,
     ErrorMsgComponent,
-    InputFieldComponent
+    InputFieldComponent,
   ],
   providers: [ DropdownService ]
 })

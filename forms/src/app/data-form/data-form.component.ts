@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { FormValidations } from '../shared/form.validations';
 import { VerificaEmailService } from './services/verifica-email.service';
 import { distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
+import {BaseFormComponent} from "../shared/base-form/base-form.component";
 
 
 @Component({
@@ -15,8 +16,8 @@ import { distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
   templateUrl: './data-form.component.html',
   styleUrls: ['./data-form.component.css']
 })
-export class DataFormComponent implements OnInit {
-  formulario: FormGroup;
+export class DataFormComponent extends BaseFormComponent implements OnInit {
+  // formulario: FormGroup;
   estados: Observable<EstadoBr[]>;
   cargos: any[];
   tecnologias: any[];
@@ -29,7 +30,9 @@ export class DataFormComponent implements OnInit {
     private dropdownService: DropdownService,
     private cepService: ConsultaCepService,
     private verificaEmailService: VerificaEmailService,
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     // this.verificaEmailService.verificaEmail('email@email.com').subscribe();
@@ -39,15 +42,6 @@ export class DataFormComponent implements OnInit {
     this.tecnologias = this.dropdownService.getTecnologias();
     this.newsletterOptions = this.dropdownService.getNewsletter();
     console.log('this.tecnologias: ', this.tecnologias);
-
-    /*this.formulario = new FormGroup({
-      nome: new FormControl(null),
-      email: new FormControl(null),
-
-      endereco: new FormGroup({
-        cep: new FormControl(null)
-      })
-    });*/
 
     this.formulario = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
@@ -111,78 +105,30 @@ export class DataFormComponent implements OnInit {
     return this.formBuilder.array(values, FormValidations.requiredMinCheckbox(1));
   }
 
-  onSubmit() {
+  submit() {
     console.log(this.formulario);
 
     let valueSubmit = Object.assign({}, this.formulario.value);
 
     valueSubmit = Object.assign(valueSubmit, {
       frameworks: valueSubmit.frameworks
-          .map((v, i) => v ? this.frameworks[i] : null)
-          .filter(v => v !== null)
+        .map((v, i) => v ? this.frameworks[i] : null)
+        .filter(v => v !== null)
     });
 
     console.log('valueSubmit: ', valueSubmit);
 
-    if (this.formulario.valid) {
-      this.http
-        .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
-        .subscribe(
-          dados => {
-            console.log(dados);
-            // reseta o form
-            // this.formulario.reset();
-            // this.resetar();
-          },
-          (error: any) => alert('erro')
-        );
-    } else {
-      console.log('formulario invalido');
-      this.verificaValidacoesForm(this.formulario);
-    }
-  }
-
-  verificaValidacoesForm(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(campo => {
-      console.log(campo);
-      const controle = formGroup.get(campo);
-      controle.markAsDirty();
-      if (controle instanceof FormGroup) {
-        this.verificaValidacoesForm(controle);
-      }
-    });
-  }
-
-  resetar() {
-    this.formulario.reset();
-  }
-
-  verificaValidTouched(campo: string) {
-    return (
-      !this.formulario.get(campo).valid &&
-      (this.formulario.get(campo).touched || this.formulario.get(campo).dirty)
-    );
-  }
-
-  verificaRequired(campo: string) {
-      return (
-          this.formulario.get(campo).hasError('required') &&
-          (this.formulario.get(campo).touched || this.formulario.get(campo).dirty)
+    this.http
+      .post('https://httpbin.org/post', JSON.stringify(this.formulario.value))
+      .subscribe(
+        dados => {
+          console.log(dados);
+          // reseta o form
+          // this.formulario.reset();
+          // this.resetar();
+        },
+        (error: any) => alert('erro')
       );
-  }
-
-  verificaEmailInvalido() {
-    const campoEmail = this.formulario.get('email');
-    if (campoEmail.errors) {
-      return campoEmail.errors['email'] && campoEmail.touched;
-    }
-  }
-
-  aplicaCssErro(campo: string) {
-    return {
-      'has-error': this.verificaValidTouched(campo),
-      'has-feedback': this.verificaValidTouched(campo)
-    };
   }
 
   consultaCEP() {
