@@ -2,14 +2,14 @@ import { ConsultaCepService } from './../shared/services/consulta-cep.service';
 import { EstadoBr } from './../shared/models/estado-br.model';
 import { DropdownService } from './../shared/services/dropdown.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { FormValidations } from '../shared/form.validations';
 import { VerificaEmailService } from './services/verifica-email.service';
 import { distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
-import {BaseFormComponent} from "../shared/base-form/base-form.component";
-
+import { BaseFormComponent } from '../shared/base-form/base-form.component';
+import { Cidade } from '../shared/models/cidade.model';
 
 @Component({
   selector: 'app-data-form',
@@ -17,8 +17,8 @@ import {BaseFormComponent} from "../shared/base-form/base-form.component";
   styleUrls: ['./data-form.component.css']
 })
 export class DataFormComponent extends BaseFormComponent implements OnInit {
-  // formulario: FormGroup;
-  estados: Observable<EstadoBr[]>;
+  estados: EstadoBr[];
+  cidades: Cidade[];
   cargos: any[];
   tecnologias: any[];
   newsletterOptions: any[];
@@ -36,8 +36,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
 
   ngOnInit() {
     // this.verificaEmailService.verificaEmail('email@email.com').subscribe();
-
-    this.estados = this.dropdownService.getEstadosBr();
+    this.dropdownService.getEstadosBr().subscribe(dados => this.estados = dados);
     this.cargos = this.dropdownService.getCargos();
     this.tecnologias = this.dropdownService.getTecnologias();
     this.newsletterOptions = this.dropdownService.getNewsletter();
@@ -46,7 +45,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       nome: [null, [Validators.required, Validators.minLength(3)]],
       // email: [null, [Validators.required, Validators.email], [FormValidations.XPTO(this.validarEmail)] ], // pode criar uma validação para não precisar de usar o bind
-      email: [null, [Validators.required, Validators.email], [this.validarEmail.bind(this)] ], // validação assíncrona é o 3o parâmetro
+      email: [null, [Validators.required, Validators.email], [this.validarEmail.bind(this)]], // validação assíncrona é o 3o parâmetro
       confirmarEmail: [null, FormValidations.equalsTo('email')],
 
       endereco: this.formBuilder.group({
@@ -59,11 +58,11 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
         estado: [null, Validators.required]
       }),
 
-        cargo: [null],
-        tecnologias: [null],
-        newsletter: ['s'], // valor padrao s (Sim)
-        termos: [null, Validators.pattern('true')], // se o campo for true, é valido
-        frameworks: this.buildFrameworks(),
+      cargo: [null],
+      tecnologias: [null],
+      newsletter: ['s'], // valor padrao s (Sim)
+      termos: [null, Validators.pattern('true')], // se o campo for true, é valido
+      frameworks: this.buildFrameworks(),
     });
 
     // this.formulario.get('endereco.cep').statusChanges
@@ -79,7 +78,7 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
     // });
 
     this.formulario.get('endereco.cep')
-        .statusChanges // retorna o campo como 'INVALID' ou 'VALID' depois de passar por todas as validações
+      .statusChanges // retorna o campo como 'INVALID' ou 'VALID' depois de passar por todas as validações
       // .pipe(
       //     distinctUntilChanged(), // retorna somente quando o valor mudar ( ex: não retorna 'INVALID' 2 vezes )
       //     tap(value => console.log('valor CEp: ', value)),
@@ -89,15 +88,27 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
       //       )
       //     )
       //     .subscribe(dados => dados ? this.populaDadosForm(dados) : {} );
-        .pipe(
-            distinctUntilChanged(),
-            tap(value => console.log('status CEP:', value)),
-            switchMap(status => status === 'VALID' ?
-                this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
-                : new Observable()
-            )
-         )
-         .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
+      .pipe(
+        distinctUntilChanged(),
+        tap(value => console.log('status CEP:', value)),
+        switchMap(status => status === 'VALID' ?
+          this.cepService.consultaCEP(this.formulario.get('endereco.cep').value)
+          : new Observable()
+        )
+      )
+      .subscribe(dados => dados ? this.populaDadosForm(dados) : {});
+
+    this.formulario.get('endereco.estado').valueChanges
+      .pipe(
+        tap(estado => console.log('estado: ', estado)),
+        map(estado => this.estados.filter(e => e.sigla === estado)),
+        map(estados => estados && estados.length > 0 ? estados[0].id : new Observable()),
+        switchMap((estadoId: number) => this.dropdownService.getCidades(estadoId)),
+        tap(console.log)
+      )
+      .subscribe(cidades => this.cidades = cidades);
+
+    // this.dropdownService.getCidades(8).subscribe(console.log);
   }
 
   buildFrameworks() {
@@ -171,8 +182,8 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
   }
 
   setarCargo() {
-      const cargo = {nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl'};
-      this.formulario.get('cargo').setValue(cargo);
+    const cargo = { nome: 'Dev', nivel: 'Pleno', desc: 'Dev Pl' };
+    this.formulario.get('cargo').setValue(cargo);
   }
 
   setarTecnologias() {
@@ -186,6 +197,6 @@ export class DataFormComponent extends BaseFormComponent implements OnInit {
   // validação assíncrona
   validarEmail(formControl: FormControl) {
     return this.verificaEmailService.verificaEmail(formControl.value)
-        .pipe(map(emailExiste => emailExiste ? { emailInvalido: true} : null));
+      .pipe(map(emailExiste => emailExiste ? { emailInvalido: true } : null));
   }
 }
