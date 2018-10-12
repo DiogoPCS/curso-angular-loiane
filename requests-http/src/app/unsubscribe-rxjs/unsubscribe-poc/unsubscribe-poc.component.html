@@ -1,0 +1,33 @@
+<div class="container">
+
+	<h3 class="mt-4 ml-3">RxJS POC (Prova de Conceito) - Unsubscribe</h3>
+	<h5 class="mt-1 ml-5">
+		Entre com um valor, emita, destrua, limpe o soncole, emita novamente, visualize quem vai criar memory leak
+		<small class="ml-4">"Componente sem unsuscribe" não é interessante</small>
+	</h5>
+
+	<div class="row mt-4 ml-3">
+		<form class="form-inline">
+			<div class="form-group mr-sm-2">
+				<input type="text" class="form-control" #valor placeholder="Valor">
+			</div>
+			<div class="form-group mx-sm-2">
+				<button type="button" class="btn btn-outline-primary" (click)="emitirValor(valor.value)">Emitir Valor
+				</button>
+			</div>
+			<div class="form-group mx-sm-2">
+				<button type="button" class="btn btn-outline-danger" (click)="destruirComponentes()">Mostrar / Destruir
+					Componentes
+				</button>
+			</div>
+		</form>
+	</div>
+
+	<div class="row mt-4" *ngIf="mostrarComponentes">
+		<app-poc class="col-md-4"></app-poc>
+		<app-poc-unsub class="col-md-4"></app-poc-unsub>
+		<app-poc-async class="col-md-4"></app-poc-async>
+		<app-poc-take-until class="col-md-4"></app-poc-take-until>
+		<app-poc-take class="col-md-4"></app-poc-take>
+	</div>
+</div>
